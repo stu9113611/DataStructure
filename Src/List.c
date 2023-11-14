@@ -42,7 +42,7 @@ void IntList_destroy(IntList* p_list) {
 }
 
 bool IntList_isEmpty(IntList list) {
-    return list.size;
+    return list.size == 0;
 }
 
 void IntList_print(IntList list) {
