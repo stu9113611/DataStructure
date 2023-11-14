@@ -10,6 +10,7 @@ IntNode* IntNode_createRef(int value) {
     }
     p_node->value = value;
     p_node->next = NULL;
+    return p_node;
 }
 
 void IntNode_print(IntNode* p_node) {
