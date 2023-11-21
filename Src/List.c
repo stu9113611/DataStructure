@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-IntNode* IntNode_createRef(int value) {
+IntNode* IntNode_CreateRef(int value) {
 	IntNode* p_node = (IntNode*)malloc(sizeof(IntNode));
 	if (!p_node) {
 		printf("Failed to allocate new IntNode!");
@@ -13,24 +13,24 @@ IntNode* IntNode_createRef(int value) {
 	return p_node;
 }
 
-void IntNode_print(IntNode* p_node) {
+void IntNode_Print(IntNode* p_node) {
 	printf("IntNode(value=%d, next=%p) at %p\n", p_node->value, p_node->next, p_node);
 }
 
-IntList IntList_create() {
+IntList IntList_Create() {
 	IntList list = { NULL, 0 };
 	return list;
 }
 
-IntList IntList_createWithArray(const int* arr, unsigned int size) {
-	IntList list = IntList_create();
+IntList IntList_CreateWithArray(const int* arr, unsigned int size) {
+	IntList list = IntList_Create();
 	for (unsigned int i = 0; i < size; i++) {
-		IntList_add(&list, arr[i]);
+		IntList_Add(&list, arr[i]);
 	}
 	return list;
 }
 
-void IntList_destroy(IntList* p_list) {
+void IntList_Destroy(IntList* p_list) {
 	IntNode* ptr = p_list->head;
 	while (ptr) {
 		IntNode* prev = ptr;
@@ -41,11 +41,11 @@ void IntList_destroy(IntList* p_list) {
 	p_list->size = 0;
 }
 
-bool IntList_isEmpty(IntList list) {
+bool IntList_IsEmpty(IntList list) {
 	return list.size == 0;
 }
 
-void IntList_print(IntList list) {
+void IntList_Print(IntList list) {
 	if (list.size == 0) {
 		printf("[ Empty ]\n");
 		return;
@@ -60,7 +60,7 @@ void IntList_print(IntList list) {
 	printf("]\n");
 }
 
-int IntList_get(const IntList* p_list, unsigned int index) {
+int IntList_Get(const IntList* p_list, unsigned int index) {
 	if (index >= p_list->size) {
 		printf("Index out of range!\n");
 		return -1;
@@ -73,7 +73,7 @@ int IntList_get(const IntList* p_list, unsigned int index) {
 	return node->value;
 }
 
-IntNode* IntList_getRef(const IntList* p_list, unsigned int index) {
+IntNode* IntList_GetRef(const IntList* p_list, unsigned int index) {
 	if (index >= p_list->size) {
 		printf("Index out of range!\n");
 		return NULL;
@@ -85,56 +85,56 @@ IntNode* IntList_getRef(const IntList* p_list, unsigned int index) {
 	return p_node;
 }
 
-IntNode* IntList_getLastRef(const IntList* p_list) {
-	return IntList_getRef(p_list, p_list->size - 1);
+IntNode* IntList_GetLastRef(const IntList* p_list) {
+	return IntList_GetRef(p_list, p_list->size - 1);
 }
 
-void IntList_add(IntList* p_list, int value) {
-	IntNode* p_newNode = IntNode_createRef(value);
+void IntList_Add(IntList* p_list, int value) {
+	IntNode* p_newNode = IntNode_CreateRef(value);
 
 	if (p_list->size == 0)
 		p_list->head = p_newNode;
 	else
-		IntList_getLastRef(p_list)->next = p_newNode;
+		IntList_GetLastRef(p_list)->next = p_newNode;
 	p_list->size += 1;
 }
 
-void IntList_addWithArr(IntList* p_list, const int* arr, unsigned int size) {
+void IntList_AddWithArr(IntList* p_list, const int* arr, unsigned int size) {
 	for (unsigned int i = 0; i < size; i++) {
-		IntList_add(p_list, arr[i]);
+		IntList_Add(p_list, arr[i]);
 	}
 }
 
-void IntList_insert(IntList* p_list, unsigned int index, int value) {
+void IntList_Insert(IntList* p_list, unsigned int index, int value) {
 	if (index == 0) {
-		IntNode* p_node = IntList_getRef(p_list, 0);
-		p_list->head = IntNode_createRef(value);
+		IntNode* p_node = IntList_GetRef(p_list, 0);
+		p_list->head = IntNode_CreateRef(value);
 		p_list->head->next = p_node;
 	}
 	else {
-		IntNode* p_node = IntList_getRef(p_list, index - 1);
+		IntNode* p_node = IntList_GetRef(p_list, index - 1);
 		const IntNode* p_next = p_node->next;
-		p_node->next = IntNode_createRef(value);
+		p_node->next = IntNode_CreateRef(value);
 		p_node->next->next = p_next;
 	}
 	p_list->size += 1;
 }
 
-void IntList_remove(IntList* p_list, unsigned int index) {
-	IntNode* p_prev = IntList_getRef(p_list, index - 1);
+void IntList_Remove(IntList* p_list, unsigned int index) {
+	IntNode* p_prev = IntList_GetRef(p_list, index - 1);
 	const IntNode* p_node = p_prev->next;
 	p_prev->next = p_node->next;
 	free(p_node);
 	p_list->size -= 1;
 }
 
-void IntList_copy(const IntList* p_from, IntList* p_to) {
+void IntList_Copy(const IntList* p_from, IntList* p_to) {
 	if (p_to->size != 0) {
-		IntList_destroy(p_to);
-		*p_to = IntList_create();
+		IntList_Destroy(p_to);
+		*p_to = IntList_Create();
 	}
 
 	for (unsigned int i = 0; i < p_from->size; i++) {
-		IntList_add(p_to, IntList_get(p_from, i));
+		IntList_Add(p_to, IntList_Get(p_from, i));
 	}
 }
